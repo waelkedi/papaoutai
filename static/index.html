@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Websocket test</title>
+<style type="text/css">
+#color div {
+	float: left;
+	width: 120px;
+	height: 30px;
+	opacity: 1;
+	transition: opacity .25s ease-in-out;
+	-moz-transition: opacity .25s ease-in-out;
+	-webkit-transition: opacity .25s ease-in-out;
+	padding: 2px;
+	margin: 5px;
+	text-align: center;
+	line-height: 30px; /*for vertical alignment*/
+}
+.sel {
+	opacity: .50;
+}
+#color #rouge {background-color: red;}
+#color #vert {background-color: green;}
+#color #bleu {background-color: blue;}
+#color #jaune {background-color: yellow;}
+#color #orange {background-color: orange;}
+#color #mauve {background-color: purple;}
+#color #turquoise {background-color: turquoise;}
+</style>
+</head>
+<body>
+
+<button onclick="free();">Libérer</button>
+<div id="color">
+<div id="rouge" onclick="select(this);"></div>
+<div id="vert" onclick="select(this);"></div>
+<div id="bleu" onclick="select(this);"></div>
+<div id="jaune" onclick="select(this);"></div>
+<div id="mauve" onclick="select(this);"></div>
+<div id="turquoise" onclick="select(this);"></div>
+</div>
+
+<script type="text/javascript">
+var current = null;
+var selected = null;
+var sock = new WebSocket("ws://localhost:8080/ws");
+sock.onopen = function (e) {
+	sock.send('get');
+}
+sock.onmessage = function (e) {
+	console.log('< '+e.data);
+	if (e.data.indexOf('cur ')==0)
+		setCurrent(e.data.substr(4));
+	else if (e.data.indexOf('err ')==0)
+		showError(e.data.substr(4));
+	/*else
+		showError('wut '+e.data);*/
+};
+
+function setCurrent(id) {
+	if (current)
+		//the previous one isn't the current one anymore
+		current.innerHTML = ' ';
+	current = document.getElementById(id);
+	current.innerHTML = 'sélectionnée';
+}
+
+function deselect() {
+	if (selected) {
+		selected.className = '';
+		selected = null;
+	}
+}
+
+function free() {
+	if (selected == current) {
+		sock.send('fre');
+		deselect();
+	}
+}
+
+function showError(id) {
+	alert('paf '+id);
+}
+
+function select(o) {
+	if (o.className.indexOf('sel') && !o.text) {
+		//don't do it twice and don't allow selecting the current value
+		deselect();
+		selected = o;
+		o.className = 'sel';
+		sock.send('sel '+o.id);
+	}
+}
+</script>
+</body>
+</html>
