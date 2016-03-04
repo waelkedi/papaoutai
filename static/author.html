@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block bodytitle %}{{a.name}}{% endblock %}
+{% block title %}{{a.name}}{% endblock %}
+{% block body %}
+<table class="table table-hover">
+<tr>
+	<th>Né(e) le</th>
+	<td>{{ a.birthday }}</td>
+</tr>
+<tr>
+	<th>Origine</th>
+	<td>{{ a.nation }}</td>
+</tr>
+</table>
+{% if a.publication_set.count %}
+<h2>Publications</h2>
+<table class="table table-hover">
+<thead>
+<tr>
+	<th>Titre</th>
+	<th>Publiée le</th>
+	<th>Saga</th>
+	<th>Volume</th>
+	<th>Éditeur</th>
+	<th>Genre</th>
+</tr>
+</thead>
+<tbody>
+{% for p in a.sorted_publications %}
+<tr class="hover {%ifchanged p.saga%}{%cycle 'success' '' as rowcolors%}{%else%}{{rowcolors}}{%endifchanged%}">
+	<td>{{ p.link }}</td>
+	<td>{{ p.pub_date }}</td>
+	<td>{{ p.saga.link }}</td>
+	<td>{{ p.volume }}</td>
+	<td>{{ p.editor.link }}</td>
+	<td>{{ p.genre }}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+{% else %}
+<div class="alert alert-info" role="alert">Aucune publication.</div>
+{% endif %}
+{% endblock %}
