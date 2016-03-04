@@ -1,0 +1,17 @@
+*** visuel seulement
+	inscription
+		création de liens manuelle (on donne le nom de l'autre personne)
+	transaction : demande d'un type de transaction
+	transaction : réponses des liens (négatives, positives), possibilité de descendre
+	transaction : choix final de la part du demandeur
+	papier pour l'école avec les personnes de confiance
+*** réelles notifications
+** gestion des calendriers (à partir du lien)
+
+choix de la techno :
+- frontend
+	UI en Bootstrap, plein d'exemples sur le Net.
+- backend
+	PHP on oublie, pas de websockets
+	NodeJS c'est sympa
+	Python c'est sympa mais faire les modifs avec ws4py c'est chiant

@@ -1,0 +1,27 @@
+bouton j'ai de la chance quand on l'a paumé (SELECT TOP...)
+
+participant = noeud
+transaction = trajet
+à l'inscription, on demande (API Google) :
+- un calendrier pour le parent (négatif ou positif, à sélectionner)
+- un calendrier (pas d'unicité) pour chaque enfant et (ou pas) le nom de l'établissement ou pas
+	si les parents ont divorcé, un autre compte convient (exceptions, pas habitude), affichage du nom du parent
+création de liens manuelle (on donne le nom de l'autre personne)
+	bonus arbitraire (si sur le même trajet, etc.)
+	ça repose exclusivement sur la confiance
+transaction :
+1) demande d'un type de transaction en broadcast parmi les liens dispos selon les points :
+	plus de trajets ont déjà été faits, moins on va tirer sur la corde (équilibre !)
+	sollicitée, pas emmerdée
+2) réponses des liens (négatives, positives)
+	possibilité de répondre en abaissant le niveau d'exigence (peut pas l'amener, doit garder chez moi)
+3) choix final de la part du demandeur et réponse aux liens (pris ou pas)
+	choix automatique en option
+	notification à l'établissement qui est associé à la tranche horaire la plus proche AVANT
+	+ personne qui reprend
+privacy :
+- l'app ne stocke ni n° de téléphones, ni adresses : API Android depuis JS ou à la main...
+	si on veut, localStorage. À la limite, l'enfant la donne.
+- mot ou prénom associé à chaque enfant (easter egg: proposer Chewie <3, c'est meugnon)
+
+papier pour l'école avec les personnes de confiance
