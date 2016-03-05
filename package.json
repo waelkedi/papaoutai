@@ -1,0 +1,23 @@
+{
+  "name": "papaoutai",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/waelkedi/papaoutai.git"
+  },
+  "author": "",
+  "license": "GPLv2",
+  "bugs": {
+    "url": "https://github.com/waelkedi/papaoutai/issues"
+  },
+  "dependencies": {
+    "websocket": "1.0.22",
+    "finalhandler": "0.4.1",
+    "serve-static": "1.10.2"
+  }
+}
