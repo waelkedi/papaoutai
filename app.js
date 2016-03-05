@@ -11,6 +11,11 @@ app.use(session({
 	resave: false,
 	saveUninitialized: false,
 }));
+app.set('view engine', 'ejs');
+
+app.get('/tpl', function(req, res, next) {
+	res.render('test', {title: 'hello'});
+});
 
 app.get('/setsess', function(req, res, next) {
 	req.session.a = 42;
