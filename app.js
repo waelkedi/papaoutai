@@ -1,4 +1,6 @@
 #!/usr/bin/env node
+var conf = require('./conf');
+var https = require('https');
 var express = require('express');
 var app = express();
 var expressws = require('express-ws')(app);
@@ -20,7 +22,7 @@ app.get('/ask', function(req, res, next) {
 });
 
 app.post('/ask', function(req, res, next) {
-	//console.log(req.body);
+	/*
 	for (c in clients) {
 		if (clients[c].upgradeReq.session.name == 'Titi') {
 			var msg = req.body;
@@ -28,7 +30,33 @@ app.post('/ask', function(req, res, next) {
 			clients[c].send(JSON.stringify(msg));
 		}
 	}
-	res.end('bouh');
+	*/
+	var o = {
+		hostname: conf.host, port: 443,
+		path: conf.path, method: 'POST',
+		rejectUnauthorized: false, requestCert: true,
+		headers: {
+			'Content-Type': 'application/json',
+			'Authorization': 'key='+conf.key,
+		},
+	};
+	console.log(o.headers.Authorization);
+	var b = '';
+	var r = https.request(o, function(r) {
+		if (r.statusCode == 200) {
+			r.on('data', function (c) {b += c;});
+			r.on('end', function (c) {
+				res.end(b);
+			});
+		}
+		else
+			console.log('HTTP error '+r.statusCode);
+	});
+	r.on('error', function (e) {
+		console.log('connection error: '+e);
+	});
+	var d = {data: {title: "Titre", message: "Youhouhou"}, to: conf.dest};
+	r.end(JSON.stringify(d));
 });
 
 app.get('/setsess', function(req, res, next) {
