@@ -16,8 +16,8 @@
     "url": "https://github.com/waelkedi/papaoutai/issues"
   },
   "dependencies": {
-    "websocket": "1.0.22",
-    "finalhandler": "0.4.1",
-    "serve-static": "1.10.2"
+    "express": "4.13.4",
+    "express-ws": "1.0.0",
+    "express-session": "1.13.0"
   }
 }
