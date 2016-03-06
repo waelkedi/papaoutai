@@ -17,11 +17,14 @@ app.use(session({
 app.use(bodyParser.urlencoded({extended: true}));
 app.set('view engine', 'ejs');
 
+/*
 app.get('/ask', function(req, res, next) {
 	res.render('ask', {title: 'Demandes', children: [{id: 42, name: 'Toto'}]});
 });
+*/
 
-app.post('/ask', function(req, res, next) {
+//app.post('/ask', function(req, res, next) {
+app.get('/ask', function(req, res, next) {
 	/*
 	for (c in clients) {
 		if (clients[c].upgradeReq.session.name == 'Titi') {
@@ -40,7 +43,6 @@ app.post('/ask', function(req, res, next) {
 			'Authorization': 'key='+conf.key,
 		},
 	};
-	console.log(o.headers.Authorization);
 	var b = '';
 	var r = https.request(o, function(r) {
 		if (r.statusCode == 200) {
@@ -55,7 +57,10 @@ app.post('/ask', function(req, res, next) {
 	r.on('error', function (e) {
 		console.log('connection error: '+e);
 	});
-	var d = {data: {title: "Titre", message: "Youhouhou"}, to: conf.dest};
+	var d = {
+		data: {title: "Titre", message: req.query.msg},
+		to: conf.help,
+	};
 	r.end(JSON.stringify(d));
 });
 

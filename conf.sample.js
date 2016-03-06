@@ -2,5 +2,6 @@ module.exports = {
 	key: 'your_key',
 	host: 'gcm-http.googleapis.com',
 	path: '/gcm/send',
-	dest: 'your_dest',
+	origin: 'your_dest',
+	help: 'your_dest',
 };
