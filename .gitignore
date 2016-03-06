@@ -1,7 +1,6 @@
 node_modules
 conf.js
 platforms/android/CordovaLib/build
-platforms/android/.gradle/2.2.1/taskArtifacts/cache.properties
 *.lock
 *.bin
 *.swp
