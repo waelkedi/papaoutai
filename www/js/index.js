@@ -48,8 +48,8 @@ var app = {
         });
 
         push.on('notification', function(data) {
-		if (data.additionalData.url)
-			window.location.href = data.additionalData.url;
+		if (data.additionalData.additionalData.url)
+			window.location.href = data.additionalData.additionalData.url;
             push.finish(function () {
                 console.log('finish successfully called');
             });

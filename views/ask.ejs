@@ -6,16 +6,17 @@
 	-->
 	<form method="post">
 		 <div class="radio">
-			   Type de trajet : 
+			   Type de trajet :
 			   <label><input type="radio" name="type" value="home" checked />Maison</label>
 			   <label><input type="radio" name="type" value="via" />via</label>
 			   <% children.forEach(function (c) { %>
 		 <div class="checkbox">
-			 <label><input type="checkbox" name="child[<%- c.id %>]" value="1" /><%= c.name %></label>
+			 <label><input type="checkbox" name="child[<%- c.id %>]" value="<%- c.name %>" /><%= c.name %></label>
 		 </div>
 		 <% }); %>
 		 <div class="checkbox">
 			   <label><input type="checkbox" name="auto" value="1" />Acceptation automatique</label>
+<!--FIXME localStorage pour ça-->
 		 </div>
 		 <input type="submit" class="btn btn-primary btn-lg btn-block" style="display:block;" value="Demander de l'aide" />
 	</form>
