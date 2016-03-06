@@ -17,11 +17,14 @@ app.use(session({
 app.use(bodyParser.urlencoded({extended: true}));
 app.set('view engine', 'ejs');
 
+/*
 app.get('/ask', function(req, res, next) {
 	res.render('ask', {title: 'Demandes', children: [{id: 42, name: 'Toto'}]});
 });
+*/
 
-app.post('/ask', function(req, res, next) {
+//app.post('/ask', function(req, res, next) {
+app.get('/ask', function(req, res, next) {
 	/*
 	for (c in clients) {
 		if (clients[c].upgradeReq.session.name == 'Titi') {
