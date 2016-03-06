@@ -43,7 +43,6 @@ app.get('/ask', function(req, res, next) {
 			'Authorization': 'key='+conf.key,
 		},
 	};
-	console.log(o.headers.Authorization);
 	var b = '';
 	var r = https.request(o, function(r) {
 		if (r.statusCode == 200) {
