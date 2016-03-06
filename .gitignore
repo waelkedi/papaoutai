@@ -1,6 +1,7 @@
 node_modules
 conf.js
 platforms/android/CordovaLib/build
+platforms/android/assets/www/js/index.js
 *.lock
 *.bin
 *.swp
