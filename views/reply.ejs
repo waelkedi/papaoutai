@@ -1,0 +1,25 @@
+<% include partials/header %>
+      <div class="starter-template">
+<p>Type : <%= q.type %></p>
+<p>Demande de : <%= q.parent %></p>
+<p>Pour : <%= q.child %></p>
+	<a class="btn btn-primary" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Informations supplémentaire</a>
+	<div class="collapse" id="collapseExample">
+<p>ha, got ya</p>
+</div>
+	<form method="post">
+		 <input type="hidden" name="parent" value="<%- q.parent %>" />
+		 <input type="submit" class="btn btn-primary btn-lg btn-block" style="display:block;" name="y" value="Oui" />
+<p>Cela convient parfaitement.</p>
+	</form>
+	<form method="post">
+		 <input type="submit" class="btn btn-primary btn-lg btn-block" style="display:block;" name="p" value="Pff" />
+<p>FIXME pas toujours montrer ça</p>
+<p>Il faudra peut-être revoir l'exigence...</p>
+	</form>
+	<form method="post">
+		 <input type="submit" class="btn btn-primary btn-lg btn-block" style="display:block;" name="n" value="Non" />
+<p>Non, vraiment pas.</p>
+	</form>
+      </div>
+<% include partials/footer %>

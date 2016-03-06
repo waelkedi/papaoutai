@@ -22,16 +22,7 @@ app.get('/ask', function(req, res, next) {
 	res.render('ask', {title: 'Demandes', children: [{id: 42, name: 'Toto'}]});
 });
 
-app.post('/ask', function(req, res, next) {
-	var msg = req.body;
-	msg.parent = "Parent"; //req.session.name;
-	/*
-	for (c in clients) {
-		if (clients[c].upgradeReq.session.name == 'Titi') {
-			clients[c].send(JSON.stringify(msg));
-		}
-	}
-	*/
+function androidNotify(title, message, url, destination, callback) {
 	var o = {
 		hostname: conf.host, port: 443,
 		path: conf.path, method: 'POST',
@@ -46,7 +37,8 @@ app.post('/ask', function(req, res, next) {
 		if (r.statusCode == 200) {
 			r.on('data', function (c) {b += c;});
 			r.on('end', function (c) {
-				res.end(b);
+				res.write(b); //FIXME
+				callback();
 			});
 		}
 		else
@@ -55,24 +47,59 @@ app.post('/ask', function(req, res, next) {
 	r.on('error', function (e) {
 		console.log('connection error: '+e);
 	});
-	var url = conf.whoami+'/reply?'+querystring.stringify(req.body);
-	console.log(url);
-	var descr = 'help meee :('; //FIXME
+	console.log(url); //FIXME
 	var d = {
-		data: {title: "Demande", message: descr,
-			additionalData: {url: url}},
-		to: conf.help,
+		data: {title: title, message: message, additionalData: {url: url}},
+		to: destination,
 	};
 	r.end(JSON.stringify(d));
+}
+
+app.post('/ask', function(req, res, next) {
+	var msg = req.body;
+	msg.parent = "Parent"; //req.session.name;
+	req.session.name = msg.parent; //FIXME
+	var url = conf.whoami+'/reply?'+querystring.stringify(req.body);
+	var descr = 'help meee :('; //FIXME
+	androidNotify("Demande", descr, url, conf.help, function() {res.end('envoyé');});
 });
 
 app.get('/reply', function(req, res, next) {
 	console.log("reply");
+	req.session.name = "Aide"; //FIXME
 	res.render('reply', {title: 'Réponse', q: req.query});
 	console.log("reply");
 });
-app.post('/reply', function(req, res, next) {
 
+var replies = {};
+app.post('/reply', function(req, res, next) {
+	var status;
+	if (req.body.y)
+		status = 'y';
+	else if (req.body.p)
+		status = 'p';
+	else //if (req.body.n)
+		status = 'n';
+	var replier = req.session.name;
+	var data = req.body; //FIXME
+	if (req.body.parent in replies) {
+		//update
+		replies[req.body.parent].push(data);
+		for (c in clients) {
+			if (clients[c].upgradeReq.session.name == req.body.parent)
+				clients[c].send(JSON.stringify(data));
+		}
+		res.end('envoyé ws');
+	}
+	else {
+		//update & notify once
+		replies[req.body.parent] = [data];
+		var url = conf.whoami+'/status';
+		var descr = 'Des réponses arrivent !';
+		androidNotify("Statut de votre demande", descr, url, conf.parent, function() {
+			res.end('envoyé notif GCM');
+		});
+	}
 });
 
 app.get('/setsess', function(req, res, next) {
@@ -88,6 +115,7 @@ app.ws('/', function (ws, req) {
 	});
 });
 
-app.listen(8080, conf.whoami.substr(conf.whoami.indexOf('//')+2), function () {
-	console.warn("I think I'm "+conf.whoami);
+var ip = conf.whoami.substr(conf.whoami.indexOf('//')+2);
+app.listen(8080, ip, function () {
+	console.warn("I think I'm "+ip);
 });

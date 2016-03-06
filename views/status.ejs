@@ -1,0 +1,13 @@
+<% include partials/header %>
+      <div class="starter-template">
+	<form method="post">
+		<% children.forEach(function (c) { %>
+		 <div class="checkbox">
+			 <label><input type="radio" id="<%- c.id %>" name="sel" value="<%- c.name %>" disabled /><%= c.name %></label>
+		 </div>
+		 <% }); %>
+<!--FIXME localStorage pour ça-->
+		 <input type="submit" class="btn btn-primary btn-lg btn-block" style="display:block;" value="Accepter" />
+	</form>
+      </div>
+<% include partials/footer %>
