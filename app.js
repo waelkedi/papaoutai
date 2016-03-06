@@ -57,7 +57,10 @@ app.get('/ask', function(req, res, next) {
 	r.on('error', function (e) {
 		console.log('connection error: '+e);
 	});
-	var d = {data: {title: "Titre", message: "Youhouhou"}, to: conf.dest};
+	var d = {
+		data: {title: "Titre", message: req.query.msg},
+		to: conf.help,
+	};
 	r.end(JSON.stringify(d));
 });
 
